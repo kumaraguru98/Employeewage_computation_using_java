@@ -1,35 +1,52 @@
-public class EmpWageComputation 
+class EmpWageComputation 
 {
   public static final int IS_PART_TIME = 1;
   public static final int IS_FULL_TIME = 2;
   public static final int empWagePerHr = 20;
   public static final int NUM_OF_WORKING_DAYS=20;
-  public static final int MAX_HRS_IN_MONTH=100; 
-  public static void main(String args[])
+  public static final int MAX_HOURS_IN_MONTH=100; 
+  int workedHrs = 0;
+  int empWage=0;
+  int totalWage=0;
+  int totalWorkingHours = 0;
+  int totalWorkingDays=0;
+
+  public void wageComputation()
   {
-      int workedHrs = 0;
-      int totalEmpHrs = 0;
-      int totalWorkingDays=0;
-      while(totalEmpHrs<=MAX_HRS_IN_MONTH && totalWorkingDays<NUM_OF_WORKING_DAYS)
-      {
+     empWage=workedHrs*empWagePerHr;
+     totalWage+=empWage;
+     totalWorkingHours+=workedHrs;
+     System.out.println("Employee's day " + totalWorkingDays + " Wage is: " +empWage);
+  }
+  public void computation()
+  {
+     while(totalWorkingDays<NUM_OF_WORKING_DAYS && totalWorkingHours<MAX_HOURS_IN_MONTH)
+     {
         totalWorkingDays++;
         int type_of_Employee = (int) Math.floor(Math.random() * 10) % 3;
         switch (type_of_Employee) 
            {
 		case IS_FULL_TIME : 
-		       workedHrs = 8;
-			break;
+                      System.out.println("Employee is full time working");
+		      workedHrs = 8;
+		      break;
 		case IS_PART_TIME :
-			workedHrs = 4;
-			break;
+                      System.out.println("Employee is working part time");
+		      workedHrs = 4;
+		      break;
 		default :
-			workedHrs = 0;
+                      System.out.println("Employee is absent");
+		      workedHrs = 0;
 	   }
-     totalEmpHrs+=workedHrs;
-     System.out.println("Day: " + totalWorkingDays+ "   Employeee Hours worked:" +workedHrs);
-     }
-     int totalWage=totalEmpHrs*empWagePerHr;
-     System.out.println("Total Emp Wage:" +totalWage);
+        wageComputation();
+      }   
+     System.out.println("Total working hours in month:"+totalWorkingHours);
+     System.out.println("Total monthly wages is:"+totalWage);
   }
-}
+     
+  public static void main(String args[]){
+        EmpWageComputation object=new EmpWageComputation();
+        object.computation();
+    }
+ }
 
