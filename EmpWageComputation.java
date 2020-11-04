@@ -1,42 +1,81 @@
-class EmpWageComputation 
+public class EmployeeWageComputation
 {
-  public static final int IS_PART_TIME = 1;
-  public static final int IS_FULL_TIME = 2;
-  public static int computeEmpWage(String company,int empWagePerHr,int numOfWorkingDays,int MAX_HOURS_IN_MONTH) 
-  {
-  int workedHrs = 0;
-  int totalWorkingHours = 0;
-  int totalWorkingDays=0;
+    // class constants
+    static final int PART_TIME = 1;
+    static final int FULL_TIME = 2;
+    // instance constants
+    final String COMPANY_NAME;
+    final int WAGE_PER_HR;
+    final int MAX_WORKING_DAYS;
+    final int MAX_WORKING_HRS;
+    // instance variable
+    int totalWage;
 
-  while(totalWorkingHours<=MAX_HOURS_IN_MONTH && totalWorkingDays<numOfWorkingDays)
-     {
-        totalWorkingDays++;
-        int type_of_Employee = (int) Math.floor(Math.random() * 10) % 3;
-        switch (type_of_Employee) 
-           {
-		case IS_FULL_TIME : 
-                      System.out.println("Employee is full time working");
-		      workedHrs = 8;
-		      break;
-		case IS_PART_TIME :
-                      System.out.println("Employee is working part time");
-		      workedHrs = 4;
-		      break;
-		default :
-                      System.out.println("Employee is absent");
-		      workedHrs = 0;
-	   }
-           totalWorkingHours+=workedHrs;
-           System.out.println("Day: " + totalWorkingDays + " Emp Hr: " +workedHrs);
-          }
-         int totalWage=totalWorkingHours*empWagePerHr;
-         System.out.println("Total employee wage for company: " +company+" is: "+totalWage);
-         return totalWage;
-       }
-       public static void main(String args[]){
-        computeEmpWage("DMart",20,2,10);
-        computeEmpWage("Reliance",10,4,20);
-      
+    EmployeeWageComputation(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs)
+    {
+        COMPANY_NAME = companyName;
+        WAGE_PER_HR = wagePerHr;
+        MAX_WORKING_DAYS = maxWorkingDays;
+        MAX_WORKING_HRS = maxWorkingHrs;
+        totalWage = 0;
     }
- }
+
+    int generateEmployeeType()
+    {
+        return (int) (Math.random() * 100) % 3;
+    }
+
+    int getWorkingHrs(int empType)
+    {
+        switch (empType)
+        {
+            case FULL_TIME:
+                return 8;
+            case PART_TIME:
+                return 4;
+            default:
+                return 0;
+        }
+    }
+
+    void calculateTotalWage()
+    {
+        System.out.println("Computation of total wage of " + COMPANY_NAME + " employee");
+        System.out.println("-----------------------------------------------------");
+        System.out.printf("%5s     %5s     %5s     %5s\n", "Day", "Workinghrs", "Wage", "Total working hrs");
+        int workingHrs;
+        for (int day = 1, totalWorkingHrs = 0; day <= MAX_WORKING_DAYS
+                && totalWorkingHrs <= MAX_WORKING_HRS; day++, totalWorkingHrs += workingHrs)
+        {
+            int empType = generateEmployeeType();
+            workingHrs = getWorkingHrs(empType);
+            int wage = workingHrs * WAGE_PER_HR;
+            totalWage += wage;
+            System.out.printf("%5d       %5d      %5d      %5d\n", day, workingHrs, wage, totalWorkingHrs + workingHrs);
+        }
+
+    }
+
+    public String toString()
+    {
+        System.out.println("Details of " + COMPANY_NAME + " employee");
+        System.out.println("-----------------------------------------------------");
+        System.out.println("Wage per hour:" + WAGE_PER_HR);
+        System.out.println("Maximum working days:" + MAX_WORKING_DAYS);
+        System.out.println("Maximum working hours:" + MAX_WORKING_HRS);
+        return "Total wage for a month of " + COMPANY_NAME + " employee is " + totalWage + "\n";
+    }
+
+    public static void main(String args[])
+    {
+        EmployeeWageComputation MPHASIS = new EmployeeWageComputation("MPHASIS", 8, 20, 100);
+        EmployeeWageComputation TCS = new EmployeeWageComputation("TCS", 4, 30, 150);
+
+        MPHASIS.calculateTotalWage();
+        System.out.println(MPHASIS);
+
+        TCS.calculateTotalWage();
+        System.out.println(TCS);
+    }
+}
 
